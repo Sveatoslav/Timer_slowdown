@@ -7,31 +7,31 @@
 
     <body>
         To see timeout throttle:
-        </br>
-        </br>
+        <br>
+        <br>
         1. Open this page
-        </br>
-        </br>
+        <br>
+        <br>
         2. Enter expected timeout interval here (ms): 
         <input name="timeout interval" type="number" maxlength="10" id="EXPECTED_TIMEOUT_INTERVAL" />
-        </br>
-        </br>        
+        <br>
+        <br>       
         3. Open browser console
-        </br>
-        </br>
+        <br>
+        <br>
         4. Go to another tab in this window
-        </br>
-        </br>
+        <br>
+        <br>
         5. Wait for tab title to change several times
-        </br>
-        </br>
+        <br>
+        <br>
         6. Go back to this page and see actual timeout delay in console
-        </br>
-        </br>
+        <br>
+        <br>
         Interresting facts:
-        </br>
+        <br>
         1. If expected timeout interval is set to 1000ms, timeout almost doesn't throlle in chrome.
-        </br>
+        <br>
         2. If exected timeout is set to 1500ms (as we have it now), actual timeout jupms between 1000 and 2000ms
 
         <script>
@@ -82,7 +82,7 @@
             };
 
             function getTitle() {
-                return isFaviconDefault ? 'New Messages' : `Zipwhip`;
+                return isFaviconDefault ? 'New Messages' : 'Zipwhip';
             };
 
             setInterval(function() {

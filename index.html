@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <title id='ZIPWHIP_TITLE'>Zipwhip</title>
+    </head>
+
+    <body>
+        To see timeout throttle:
+    </br>
+        1. Open this page
+    </br>
+        2. Open browser console
+    </br>
+        3. Open a new tab
+    </br>
+        4. Wait for tab title to change several times
+    </br>
+        5. Go back to this page and see actual timeout delay in console
+
+        <script>
+            var documentHead = document.getElementsByTagName('head')[0];
+            var tabTitleElement = document.getElementById('ZIPWHIP_TITLE');
+            // var tabHidden = document.visibilityState === "hidden";
+            var tabHidden = false;
+            var setIntervalRef = undefined;
+            var timeoutStart = undefined;
+            var isFaviconDefault = true;
+
+            var BLINKING_INTERVAL = 1500;
+
+            function isTabHidden() {
+                return document.visibilityState === "hidden";
+            }
+
+            function simulateReactComponentDidUpdate() {
+                if (isTabHidden()) {
+                    if (!setIntervalRef) {
+                        console.log('EXPECTED TIMER INTERVAL', BLINKING_INTERVAL);
+                        setIntervalRef = setInterval(titleSwitch, BLINKING_INTERVAL);
+                    }
+                } else {
+                    stopBlinking();
+                }
+            }
+
+            function stopBlinking() {
+                if (setIntervalRef) {
+                    clearInterval(setIntervalRef);
+                    setIntervalRef = undefined;
+                }
+            }
+
+            function titleSwitch() {
+                timeoutEnd = new Date().getTime();
+                if (timeoutStart) {
+                    var delta = timeoutEnd - timeoutStart;
+                    console.log('actual timeout interval', delta);
+                }
+
+                isFaviconDefault = !isFaviconDefault;
+                documentHead.removeChild(tabTitleElement);
+                tabTitleElement = document.createElement('title');
+                tabTitleElement.id = 'ZIPWHIP_TITLE';
+                tabTitleElement.innerHTML = getTitle();
+                documentHead.appendChild(tabTitleElement);
+
+                timeoutStart = new Date().getTime();
+            };
+
+            function getTitle() {
+                return isFaviconDefault ? 'New Messages' : `Zipwhip`;
+            };
+
+            setInterval(function() {
+                simulateReactComponentDidUpdate();
+            }, 500);
+        </script>
+    </body>
+
+</html>

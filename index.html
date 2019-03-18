@@ -3,6 +3,7 @@
 
     <head>
         <title id='ZIPWHIP_TITLE'>Zipwhip</title>
+        <link rel="shortcut icon" id="FAVICON_LINK" href="favicon.ico">
     </head>
 
     <body>
@@ -37,6 +38,7 @@
         <script>
             var documentHead = document.getElementsByTagName('head')[0];
             var tabTitleElement = document.getElementById('ZIPWHIP_TITLE');
+            var faviconElement = document.getElementById('FAVICON_LINK');
             var tabHidden = false;
             var setIntervalRef = undefined;
             var timeoutStart = undefined;
@@ -50,10 +52,8 @@
                 if (isTabHidden()) {
                     var expectedInterval = document.getElementById('EXPECTED_TIMEOUT_INTERVAL').value;
                     if (!setIntervalRef) {
-                        setIntervalRef = setInterval(titleSwitch, expectedInterval);
+                        setIntervalRef = setInterval(tabInfoSwitch, expectedInterval);
                     }
-                } else {
-                    stopBlinking();
                 }
             }
 
@@ -61,24 +61,47 @@
                 if (setIntervalRef) {
                     clearInterval(setIntervalRef);
                     setIntervalRef = undefined;
+                    if (!isFaviconDefault) {
+                        faviconSwitch()
+                    } else {
+                        isFaviconDefault = !isFaviconDefault
+                        titleSwitch()
+                        isFaviconDefault = !isFaviconDefault
+                    }
                 }
             }
 
-            function titleSwitch() {
+            function tabInfoSwitch() {
+                if (!isTabHidden()) {
+                    stopBlinking();
+                }
                 timeoutEnd = new Date().getTime();
                 if (timeoutStart) {
                     var delta = timeoutEnd - timeoutStart;
                     console.log('actual timeout interval', delta);
                 }
+                faviconSwitch();
+                titleSwitch();
+                timeoutStart = new Date().getTime();
+            }
 
+            function faviconSwitch() {
+                documentHead.removeChild(faviconElement);
+
+                faviconElement = document.createElement('link');
+                faviconElement.id = 'FAVICON_LINK';
+                faviconElement.rel = 'shortcut icon';
+                faviconElement.href = isFaviconDefault ? 'phantomFavicon.ico' : 'favicon.ico';
+                documentHead.appendChild(faviconElement);
                 isFaviconDefault = !isFaviconDefault;
+            };
+
+            function titleSwitch() {
                 documentHead.removeChild(tabTitleElement);
                 tabTitleElement = document.createElement('title');
                 tabTitleElement.id = 'ZIPWHIP_TITLE';
                 tabTitleElement.innerHTML = getTitle();
                 documentHead.appendChild(tabTitleElement);
-
-                timeoutStart = new Date().getTime();
             };
 
             function getTitle() {

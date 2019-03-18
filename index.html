@@ -7,27 +7,40 @@
 
     <body>
         To see timeout throttle:
-    </br>
+        </br>
+        </br>
         1. Open this page
-    </br>
-        2. Open browser console
-    </br>
-        3. Open a new tab
-    </br>
-        4. Wait for tab title to change several times
-    </br>
-        5. Go back to this page and see actual timeout delay in console
+        </br>
+        </br>
+        2. Enter expected timeout interval here (ms): 
+        <input name="timeout interval" type="number" maxlength="10" id="EXPECTED_TIMEOUT_INTERVAL" />
+        </br>
+        </br>        
+        3. Open browser console
+        </br>
+        </br>
+        4. Go to another tab in this window
+        </br>
+        </br>
+        5. Wait for tab title to change several times
+        </br>
+        </br>
+        6. Go back to this page and see actual timeout delay in console
+        </br>
+        </br>
+        Interresting facts:
+        </br>
+        1. If expected timeout interval is set to 1000ms, timeout almost doesn't throlle in chrome.
+        </br>
+        2. If exected timeout is set to 1500ms (as we have it now), actual timeout jupms between 1000 and 2000ms
 
         <script>
             var documentHead = document.getElementsByTagName('head')[0];
             var tabTitleElement = document.getElementById('ZIPWHIP_TITLE');
-            // var tabHidden = document.visibilityState === "hidden";
             var tabHidden = false;
             var setIntervalRef = undefined;
             var timeoutStart = undefined;
             var isFaviconDefault = true;
-
-            var BLINKING_INTERVAL = 1500;
 
             function isTabHidden() {
                 return document.visibilityState === "hidden";
@@ -35,9 +48,9 @@
 
             function simulateReactComponentDidUpdate() {
                 if (isTabHidden()) {
+                    var expectedInterval = document.getElementById('EXPECTED_TIMEOUT_INTERVAL').value;
                     if (!setIntervalRef) {
-                        console.log('EXPECTED TIMER INTERVAL', BLINKING_INTERVAL);
-                        setIntervalRef = setInterval(titleSwitch, BLINKING_INTERVAL);
+                        setIntervalRef = setInterval(titleSwitch, expectedInterval);
                     }
                 } else {
                     stopBlinking();

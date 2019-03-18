@@ -94,6 +94,8 @@
                 faviconElement.href = isFaviconDefault ? 'phantomFavicon.ico' : 'favicon.ico';
                 documentHead.appendChild(faviconElement);
                 isFaviconDefault = !isFaviconDefault;
+
+                faviconFinishedChanging = new Date().getTime();
             };
 
             function titleSwitch() {
@@ -102,6 +104,10 @@
                 tabTitleElement.id = 'ZIPWHIP_TITLE';
                 tabTitleElement.innerHTML = getTitle();
                 documentHead.appendChild(tabTitleElement);
+
+                titleFinishedChanging = new Date().getTime();
+                var delta2 = titleFinishedChanging - faviconFinishedChanging;
+                console.log('title lagging behind favicon', delta2);
             };
 
             function getTitle() {

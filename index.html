@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        <title id='ZIPWHIP_TITLE'>Zipwhip</title>
+        <title id='TAB_TITLE'>Default Title</title>
         <link rel="shortcut icon" id="FAVICON_LINK" href="favicon.ico">
     </head>
 
@@ -37,7 +37,7 @@
 
         <script>
             var documentHead = document.getElementsByTagName('head')[0];
-            var tabTitleElement = document.getElementById('ZIPWHIP_TITLE');
+            var tabTitleElement = document.getElementById('TAB_TITLE');
             var faviconElement = document.getElementById('FAVICON_LINK');
             var tabHidden = false;
             var setIntervalRef = undefined;
@@ -111,7 +111,7 @@
             };
 
             function getTitle() {
-                return isFaviconDefault ? 'New Messages' : 'Zipwhip';
+                return isFaviconDefault ? 'New Messages' : 'Default Title';
             };
 
             setInterval(function() {
